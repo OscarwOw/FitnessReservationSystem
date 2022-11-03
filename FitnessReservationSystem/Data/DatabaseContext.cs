@@ -12,6 +12,7 @@ namespace FitnessReservationSystem.Data
         public DbSet<Lecture> Lectures { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<TagCourse> TagCourses { get; set; }
 
         
     }
