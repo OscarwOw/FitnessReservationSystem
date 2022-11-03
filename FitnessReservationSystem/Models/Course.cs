@@ -14,6 +14,6 @@ namespace FitnessReservationSystem.Models
         public int Length { get; set; }
         public int Price { get; set; }
         public ICollection<Lecture> Lectures { get; set; }
-        public ICollection<TagCourse> TagCourses { get; set; }
+        public ICollection<Tag> Tags { get; set; }
     }
 }

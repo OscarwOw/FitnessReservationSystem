@@ -10,6 +10,6 @@ namespace FitnessReservationSystem.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public ICollection<TagCourse> TagCourses { get; set; }
+        public ICollection<Course> Course { get; set; }
     }
 }
