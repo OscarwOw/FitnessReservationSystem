@@ -1,4 +1,5 @@
 ﻿using FitnessReservationSystem.Interfaces;
+using FitnessReservationSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -17,9 +18,15 @@ namespace FitnessReservationSystem.Controllers
 
         // GET: api/<CourseController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Course>))]
+        public IActionResult GetCourses()
         {
-            return new string[] { "value1", "value2" };
+            var courses = _courseRepository.Get();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            return Ok(courses);
         }
 
         // GET api/<CourseController>/5

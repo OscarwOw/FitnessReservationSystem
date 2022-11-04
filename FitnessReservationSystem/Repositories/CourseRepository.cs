@@ -30,7 +30,7 @@ namespace FitnessReservationSystem.Repositories
 
         public IEnumerable<Course> Get()
         {
-            throw new NotImplementedException();
+            return _databaseContext.Courses;
         }
 
         public void Update(Course course)
