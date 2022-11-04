@@ -5,7 +5,7 @@ namespace FitnessReservationSystem.Data
 {
     public class DatabaseContext : DbContext
     {
-        protected DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
+        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
         }
         public DbSet<Course> Courses { get; set; }
