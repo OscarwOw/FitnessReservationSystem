@@ -5,6 +5,11 @@ namespace FitnessReservationSystem.Models
 {
     public class Course
     {
+        public Course()
+        {
+            this.Tags = new HashSet<Tag>();
+        }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
@@ -14,6 +19,6 @@ namespace FitnessReservationSystem.Models
         public int Length { get; set; }
         public int Price { get; set; }
         public ICollection<Lecture> Lectures { get; set; }
-        public ICollection<TagCourse> TagCourses { get; set; }
+        public virtual ICollection<Tag> Tags { get; set; }
     }
 }
