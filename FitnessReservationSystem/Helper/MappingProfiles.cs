@@ -9,6 +9,9 @@ namespace FitnessReservationSystem.Helper
         public MappingProfiles()
         {
             CreateMap<Course, CourseDTO>();
+            CreateMap<Lecture, LectureDTO>();
+            CreateMap<Reservation, ReservationDTO>();
+            CreateMap<Tag, TagDTO>();
         }
     }
 }

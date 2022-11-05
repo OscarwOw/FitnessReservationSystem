@@ -25,7 +25,7 @@ namespace FitnessReservationSystem.Controllers
         [ProducesResponseType(200, Type = typeof(IEnumerable<Course>))]
         public IActionResult GetCourses()
         {
-            var courses = _mapper.Map<List<CourseDTO>>(_courseRepository.Get());
+            var courses = _courseRepository.GetAll();
             if (!ModelState.IsValid)
             {
                 return BadRequest();
@@ -39,7 +39,7 @@ namespace FitnessReservationSystem.Controllers
         [ProducesResponseType(400)]
         public IActionResult Get(int id)
         {
-            var course = _mapper.Map<Course>(_courseRepository.Get(id));
+            var course = _mapper.Map<CourseDTO>(_courseRepository.GetById(id));
             if (course == null)
             {
                 return NotFound();
@@ -49,6 +49,38 @@ namespace FitnessReservationSystem.Controllers
                 return BadRequest();
             }
             return Ok(course);
+        }
+        [HttpGet("{id}/tags")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Tag>))]
+        [ProducesResponseType(400)]
+        public IActionResult GetTags(int id)
+        {
+            var tags = _courseRepository.GetTags(id);
+            if (tags == null)
+            {
+                return NotFound();
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            return Ok(tags);
+        }
+        [HttpGet("{id}/Lectures")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Lecture>))]
+        [ProducesResponseType(400)]
+        public IActionResult GetLectures(int id)
+        {
+            var lectures = _courseRepository.GetLectures(id);
+            if(lectures == null)
+            {
+                return NotFound();
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            return Ok(lectures);
         }
 
         // POST api/<CourseController>

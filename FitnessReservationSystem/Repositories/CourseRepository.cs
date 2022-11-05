@@ -1,6 +1,7 @@
 ﻿using FitnessReservationSystem.Data;
 using FitnessReservationSystem.Interfaces;
 using FitnessReservationSystem.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FitnessReservationSystem.Repositories
 {
@@ -17,19 +18,28 @@ namespace FitnessReservationSystem.Repositories
         {
             throw new NotImplementedException();
         }
-        public Course Get(int id)
+        public Course GetById(int id)
         {
-            return _databaseContext.Courses.Where(e => e.Id == id).FirstOrDefault();   
+            return _databaseContext.Courses.Where(e => e.Id == id).FirstOrDefault();
         }
 
-        public Course Get(string name)
+        public Course GetByName(string name)
         {
             return _databaseContext.Courses.Where(e => e.Name == name).FirstOrDefault();
         }
-
-        public ICollection<Course> Get()
+        public ICollection<Course> GetAll()
         {
-            return _databaseContext.Courses.OrderBy(e => e.Id).ToList(); //could be Ienumerable context.course 
+            return _databaseContext.Courses.ToList();
+        }
+        public ICollection<Tag> GetTags(int id)
+        {
+            //return _databaseContext.Courses.Where(e => e.Id == id).FirstOrDefault().Tags.ToList();
+            return _databaseContext.Courses.Where(e => e.Id == id).SelectMany(e => e.Tags).ToList();
+            //fixing
+        }
+        public ICollection<Lecture> GetLectures(int id)
+        {
+            return _databaseContext.Lectures.Where(e => e.Course.Id == id).ToList();
         }
 
         public void Update(Course course)
@@ -40,5 +50,15 @@ namespace FitnessReservationSystem.Repositories
         {
             throw new NotImplementedException();
         }
+
+
+
+        
+
+        
+
+        
+
+        
     }
 }
