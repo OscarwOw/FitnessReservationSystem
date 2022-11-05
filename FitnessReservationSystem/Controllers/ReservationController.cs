@@ -1,4 +1,8 @@
-﻿using FitnessReservationSystem.Interfaces;
+﻿using AutoMapper;
+using FitnessReservationSystem.Dto;
+using FitnessReservationSystem.Interfaces;
+using FitnessReservationSystem.Models;
+using FitnessReservationSystem.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,22 +13,60 @@ namespace FitnessReservationSystem.Controllers
     public class ReservationController : ControllerBase
     {
         private readonly IReservationRepository _reservationRepository;
-        public ReservationController(IReservationRepository reservationRepository)
+        private readonly IMapper _mapper;
+
+        public ReservationController(IReservationRepository reservationRepository,IMapper mapper)
         {
             _reservationRepository = reservationRepository;
+            _mapper = mapper;
         }
         // GET: api/<ReservationController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Reservation>))]
+        public IActionResult GetAll()
         {
-            return new string[] { "value1", "value2" };
+            var reservations = _reservationRepository.GetAll();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            return Ok(reservations);
         }
 
         // GET api/<ReservationController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        [ProducesResponseType(200, Type = typeof(Reservation))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public IActionResult GetById(int id)
         {
-            return "value";
+            var reservation = _mapper.Map<ReservationDTO>(_reservationRepository.GetReservation(id));
+            if (reservation == null)
+            {
+                return NotFound();
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            return Ok(reservation);
+        }
+        [HttpGet("/FindByName/{name}")]
+        [ProducesResponseType(200, Type = typeof(Reservation))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public IActionResult GetByName(string name)
+        {
+            var reservation = _mapper.Map<ReservationDTO>(_reservationRepository.GetReservationByName(name));
+            if (reservation == null)
+            {
+                return NotFound();
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            return Ok(reservation);
         }
 
         // POST api/<ReservationController>
