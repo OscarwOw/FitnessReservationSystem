@@ -1,4 +1,6 @@
-﻿using FitnessReservationSystem.Interfaces;
+﻿using AutoMapper;
+using FitnessReservationSystem.Dto;
+using FitnessReservationSystem.Interfaces;
 using FitnessReservationSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,9 +13,11 @@ namespace FitnessReservationSystem.Controllers
     public class CourseController : ControllerBase
     {
         private readonly ICourseRepository _courseRepository;
-        public CourseController(ICourseRepository courseRepository)
+        private readonly IMapper _mapper;
+        public CourseController(ICourseRepository courseRepository, IMapper mapper)
         {
             _courseRepository = courseRepository;
+            _mapper = mapper;
         }
 
         // GET: api/<CourseController>
@@ -21,7 +25,7 @@ namespace FitnessReservationSystem.Controllers
         [ProducesResponseType(200, Type = typeof(IEnumerable<Course>))]
         public IActionResult GetCourses()
         {
-            var courses = _courseRepository.Get();
+            var courses = _mapper.Map<List<CourseDTO>>(_courseRepository.Get());
             if (!ModelState.IsValid)
             {
                 return BadRequest();
@@ -31,9 +35,20 @@ namespace FitnessReservationSystem.Controllers
 
         // GET api/<CourseController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        [ProducesResponseType(200, Type = typeof(Course))]
+        [ProducesResponseType(400)]
+        public IActionResult Get(int id)
         {
-            return "value";
+            var course = _mapper.Map<Course>(_courseRepository.Get(id));
+            if (course == null)
+            {
+                return NotFound();
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            return Ok(course);
         }
 
         // POST api/<CourseController>
