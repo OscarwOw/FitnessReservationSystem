@@ -33,13 +33,11 @@ namespace FitnessReservationSystem.Repositories
         }
         public ICollection<Tag> GetTags(int id)
         {
-            //return _databaseContext.Courses.Where(e => e.Id == id).FirstOrDefault().Tags.ToList();
-            return _databaseContext.Courses.Where(e => e.Id == id).SelectMany(e => e.Tags).ToList();
-            //fixing
+            return _databaseContext.Courses.Where(e => e.Id == id).SelectMany(e => e.Tags).ToList(); // m:n relationship
         }
         public ICollection<Lecture> GetLectures(int id)
         {
-            return _databaseContext.Lectures.Where(e => e.Course.Id == id).ToList();
+            return _databaseContext.Lectures.Where(e => e.Course.Id == id).ToList(); //1:m relationship
         }
 
         public void Update(Course course)
