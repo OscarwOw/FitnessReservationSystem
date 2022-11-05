@@ -1,4 +1,8 @@
-﻿using FitnessReservationSystem.Interfaces;
+﻿using AutoMapper;
+using FitnessReservationSystem.Dto;
+using FitnessReservationSystem.Interfaces;
+using FitnessReservationSystem.Models;
+using FitnessReservationSystem.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -10,22 +14,59 @@ namespace FitnessReservationSystem.Controllers
     public class TagController : ControllerBase
     {
         private readonly ITagRepository _tagRepository;
-        public TagController(ITagRepository tagRepository) 
+        private readonly IMapper _mapper;
+        public TagController(ITagRepository tagRepository,IMapper mapper) 
         {
             _tagRepository = tagRepository;
+            _mapper = mapper; 
         }
-        // GET: api/<TagController>
+        
         [HttpGet]
-        public IEnumerable<string> Get()
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Tag>))]
+        public IActionResult GetTags()
         {
-            return new string[] { "value1", "value2" };
+            var tags = _tagRepository.GetAll();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            return Ok(tags);
         }
 
-        // GET api/<TagController>/5
+        
         [HttpGet("{id}")]
-        public string Get(int id)
+        [ProducesResponseType(200, Type = typeof(Tag))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public IActionResult GetById(int id)
         {
-            return "value";
+            var tag = _mapper.Map<TagDTO>(_tagRepository.GetTag(id));
+            if (tag == null)
+            {
+                return NotFound();
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            return Ok(tag);
+        }
+        [HttpGet("{id}/courses")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Course>))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public IActionResult GetCourses(int id)
+        {
+            var courses = _tagRepository.GetTagsCourses(id);
+            if (courses == null)
+            {
+                return NotFound();
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            return Ok(courses);
         }
 
         // POST api/<TagController>
