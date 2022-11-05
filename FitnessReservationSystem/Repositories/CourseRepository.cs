@@ -17,23 +17,26 @@ namespace FitnessReservationSystem.Repositories
         {
             throw new NotImplementedException();
         }
-
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public Course Get(int id)
         {
-            throw new NotImplementedException();
+            return _databaseContext.Courses.Where(e => e.Id == id).FirstOrDefault();   
         }
 
-        public IEnumerable<Course> Get()
+        public Course Get(string name)
         {
-            return _databaseContext.Courses;
+            return _databaseContext.Courses.Where(e => e.Name == name).FirstOrDefault();
+        }
+
+        public ICollection<Course> Get()
+        {
+            return _databaseContext.Courses.OrderBy(e => e.Id).ToList(); //could be Ienumerable context.course 
         }
 
         public void Update(Course course)
+        {
+            throw new NotImplementedException();
+        }
+        public void Delete(int id)
         {
             throw new NotImplementedException();
         }
