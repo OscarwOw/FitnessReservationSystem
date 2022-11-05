@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.Features;
 using FitnessReservationSystem.Dto;
 using FitnessReservationSystem.Interfaces;
 using FitnessReservationSystem.Models;
@@ -20,20 +21,23 @@ namespace FitnessReservationSystem.Controllers
             _reservationRepository = reservationRepository;
             _mapper = mapper;
         }
-        // GET: api/<ReservationController>
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Reservation>))]
         public IActionResult GetAll()
         {
             var reservations = _reservationRepository.GetAll();
+            List<ReservationDTO> reservationdtos = new List<ReservationDTO>();
+            foreach (var reservation in reservations)
+            {
+                reservationdtos.Add(_mapper.Map<ReservationDTO>(reservation));
+            }
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
-            return Ok(reservations);
+            return Ok(reservationdtos);
         }
 
-        // GET api/<ReservationController>/5
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(Reservation))]
         [ProducesResponseType(400)]

@@ -26,11 +26,16 @@ namespace FitnessReservationSystem.Controllers
         public IActionResult GetTags()
         {
             var tags = _tagRepository.GetAll();
+            List<TagDTO> tagsdtos = new List<TagDTO>();
+            foreach (var tag in tags)
+            {
+                tagsdtos.Add(_mapper.Map<TagDTO>(tag));
+            }
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
-            return Ok(tags);
+            return Ok(tagsdtos);
         }
 
         
@@ -58,6 +63,11 @@ namespace FitnessReservationSystem.Controllers
         public IActionResult GetCourses(int id)
         {
             var courses = _tagRepository.GetTagsCourses(id);
+            List<CourseDTO> coursesdtos = new List<CourseDTO>();
+            foreach (var course in courses)
+            {
+                coursesdtos.Add(_mapper.Map<CourseDTO>(course));
+            }
             if (courses == null)
             {
                 return NotFound();
@@ -66,7 +76,7 @@ namespace FitnessReservationSystem.Controllers
             {
                 return BadRequest();
             }
-            return Ok(courses);
+            return Ok(coursesdtos);
         }
 
         // POST api/<TagController>

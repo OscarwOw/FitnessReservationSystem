@@ -4,7 +4,7 @@ using FitnessReservationSystem.Interfaces;
 using FitnessReservationSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
 
 namespace FitnessReservationSystem.Controllers
 {
@@ -20,20 +20,24 @@ namespace FitnessReservationSystem.Controllers
             _mapper = mapper;
         }
 
-        // GET: api/<CourseController>
+
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Course>))]
         public IActionResult GetCourses()
         {
             var courses = _courseRepository.GetAll();
+            List<CourseDTO> coursesdtos = new List<CourseDTO>();
+            foreach(var course in courses)
+            {
+                coursesdtos.Add(_mapper.Map<CourseDTO>(course));
+            }
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
-            return Ok(courses);
+            return Ok(coursesdtos);
         }
 
-        // GET api/<CourseController>/5
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(Course))]
         [ProducesResponseType(400)]
@@ -56,6 +60,11 @@ namespace FitnessReservationSystem.Controllers
         public IActionResult GetTags(int id)
         {
             var tags = _courseRepository.GetTags(id);
+            List<TagDTO> tagsdtos = new List<TagDTO>();
+            foreach(var tag in tags)
+            {
+                tagsdtos.Add(_mapper.Map<TagDTO>(tag));
+            }
             if (tags == null)
             {
                 return NotFound();
@@ -64,7 +73,7 @@ namespace FitnessReservationSystem.Controllers
             {
                 return BadRequest();
             }
-            return Ok(tags);
+            return Ok(tagsdtos);
         }
         [HttpGet("{id}/Lectures")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Lecture>))]
@@ -72,7 +81,12 @@ namespace FitnessReservationSystem.Controllers
         public IActionResult GetLectures(int id)
         {
             var lectures = _courseRepository.GetLectures(id);
-            if(lectures == null)
+            List<LectureDTO> lecturesdtos = new List<LectureDTO>();
+            foreach(var lecture in lectures)
+            {
+                lecturesdtos.Add(_mapper.Map<LectureDTO>(lecture));
+            }
+            if (lectures == null)
             {
                 return NotFound();
             }
@@ -80,7 +94,7 @@ namespace FitnessReservationSystem.Controllers
             {
                 return BadRequest();
             }
-            return Ok(lectures);
+            return Ok(lecturesdtos);
         }
 
         // POST api/<CourseController>
