@@ -12,9 +12,17 @@ namespace FitnessReservationSystem.Repositories
             _databaseContext = databaseContext;
         }
 
-        public void Add(Lecture lecture)
+        public bool Add(int courseId,Lecture lecture)
         {
-            throw new NotImplementedException();
+            var course = _databaseContext.Courses.Where(c => c.Id== courseId).FirstOrDefault();
+            if (course == null)
+            {
+                return false;
+            }
+            lecture.Course = course;
+            _databaseContext.Add(lecture);
+            _databaseContext.SaveChanges();
+            return true;
         }
         public IEnumerable<Lecture> GetAll()
         {

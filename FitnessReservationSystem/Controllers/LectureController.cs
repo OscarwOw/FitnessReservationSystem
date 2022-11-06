@@ -20,7 +20,7 @@ namespace FitnessReservationSystem.Controllers
             _mapper = mapper;
         }
 
-        // GET: api/<LectureController>
+        
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Lecture>))]
         [ProducesResponseType(400)]
@@ -44,7 +44,7 @@ namespace FitnessReservationSystem.Controllers
             return Ok(lecturesdtos);
         }
 
-        // GET api/<LectureController>/5
+        
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(LectureDTO))]
         [ProducesResponseType(400)]
@@ -76,10 +76,33 @@ namespace FitnessReservationSystem.Controllers
         }
         
 
-        // POST api/<LectureController>
+        
         [HttpPost]
-        public void Post([FromBody] string value)
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult CreateLecture([FromQuery] int CourseId,[FromBody] LectureDTO lecturedto)
         {
+            if(lecturedto == null)
+            {
+                return BadRequest();
+            }
+            var lectures = _lectureRepository.GetAll().Where(e => e.Name.Trim().ToUpper() == lecturedto.Name.TrimEnd().ToUpper()).FirstOrDefault();
+            if (lectures != null)
+            {
+                ModelState.AddModelError("", "Instance already exists");
+                return StatusCode(422, ModelState);
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            var lecture = _mapper.Map<Lecture>(lecturedto);
+            if (!_lectureRepository.Add(CourseId, lecture))
+            {
+                ModelState.AddModelError("", "Something went wrong");
+                return StatusCode(500, ModelState);
+            }
+            return Ok("Success");
         }
 
         // PUT api/<LectureController>/5

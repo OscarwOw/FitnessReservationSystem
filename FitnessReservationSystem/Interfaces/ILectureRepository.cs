@@ -4,7 +4,7 @@ namespace FitnessReservationSystem.Interfaces
 {
     public interface ILectureRepository
     {
-        public void Add(Lecture lecture);
+        public bool Add(int courseId,Lecture lecture);
         public Lecture GetLecture(int id);
         public IEnumerable<Lecture> GetAll();
         public int GetRegistrationCount(int id);
