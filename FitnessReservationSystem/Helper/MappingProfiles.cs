@@ -8,10 +8,10 @@ namespace FitnessReservationSystem.Helper
     {
         public MappingProfiles()
         {
-            CreateMap<Course, CourseDTO>();
-            CreateMap<Lecture, LectureDTO>();
-            CreateMap<Reservation, ReservationDTO>();
-            CreateMap<Tag, TagDTO>();
+            CreateMap<Course, CourseDTO>().ReverseMap();
+            CreateMap<Lecture, LectureDTO>().ReverseMap();
+            CreateMap<Reservation, ReservationDTO>().ReverseMap();
+            CreateMap<Tag, TagDTO>().ReverseMap();
         }
     }
 }
