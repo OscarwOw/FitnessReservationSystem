@@ -97,10 +97,34 @@ namespace FitnessReservationSystem.Controllers
             return Ok(lecturesdtos);
         }
 
-        // POST api/<CourseController>
+        
         [HttpPost]
-        public void Post([FromBody] string value)
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult CreateCategory([FromBody] CourseDTO courseDTO)
         {
+            if (courseDTO == null)
+            {
+                return BadRequest();
+            }
+            var course = _courseRepository.GetAll().Where(e => e.Name.Trim().ToUpper() == courseDTO.Name.TrimEnd().ToUpper()).FirstOrDefault();
+            if(course != null)
+            {
+                ModelState.AddModelError("", "Course already exist");
+                return StatusCode(422, ModelState);
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var coursemap =  _mapper.Map<Course>(courseDTO);
+            if (!_courseRepository.Add(coursemap))
+            {
+                ModelState.AddModelError("", "something went wrong");
+                return StatusCode(500, ModelState);
+            }
+            return Ok("success");
+
         }
 
         // PUT api/<CourseController>/5

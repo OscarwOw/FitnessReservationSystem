@@ -4,7 +4,7 @@ namespace FitnessReservationSystem.Interfaces
 {
     public interface ICourseRepository
     {
-        public void Add(Course course);
+        public bool Add(Course course);
         public Course GetById(int id);
         public Course GetByName(string name);
         public ICollection<Course> GetAll();

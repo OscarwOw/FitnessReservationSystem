@@ -14,9 +14,11 @@ namespace FitnessReservationSystem.Repositories
             _databaseContext = databaseContext;
         }
 
-        public void Add(Course course)
+        public bool Add(Course course)
         {
-            throw new NotImplementedException();
+            _databaseContext.Add(course);
+            _databaseContext.SaveChanges();
+            return true;
         }
         public Course GetById(int id)
         {
