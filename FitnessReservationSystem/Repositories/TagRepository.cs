@@ -11,9 +11,11 @@ namespace FitnessReservationSystem.Repositories
         { 
             _databaseContext = databaseContext;
         }
-        public void Add(Tag tag)
+        public bool Add(Tag tag)
         {
-            throw new NotImplementedException();
+            _databaseContext.Add(tag);
+            _databaseContext.SaveChanges();
+            return true;
         }
         public ICollection<Tag> GetAll()
         {

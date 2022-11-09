@@ -79,10 +79,31 @@ namespace FitnessReservationSystem.Controllers
             return Ok(coursesdtos);
         }
 
-        // POST api/<TagController>
+        
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult CreateTag([FromBody] TagDTO tagDto)
         {
+            if (tagDto== null)
+            {
+                return BadRequest();
+            }
+            var tag = _tagRepository.GetAll().Where(e => e.Name.Trim().ToUpper() == tagDto.Name.TrimEnd().ToUpper()).FirstOrDefault();
+            if (tag != null)
+            {
+                ModelState.AddModelError("", "Tag already exist");
+                return StatusCode(422, ModelState);
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var tagmap = _mapper.Map<Tag>(tagDto);
+            if (!_tagRepository.Add(tagmap))
+            {
+                ModelState.AddModelError("", "something went wrong");
+                return StatusCode(500, ModelState);
+            }
+            return NoContent();
         }
 
         // PUT api/<TagController>/5

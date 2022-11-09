@@ -4,7 +4,7 @@ namespace FitnessReservationSystem.Interfaces
 {
     public interface ITagRepository
     {
-        public void Add(Tag tag);
+        public bool Add(Tag tag);
         public Tag GetTag(int id);
         public ICollection<Tag> GetAll();
         public ICollection<Course> GetTagsCourses(int id);
