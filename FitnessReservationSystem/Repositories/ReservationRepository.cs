@@ -12,9 +12,13 @@ namespace FitnessReservationSystem.Repositories
             _databaseContext = databaseContext;
         }
 
-        public void Add(Reservation reservation)
+        public bool Add(int lectureId,Reservation reservation)
         {
-            throw new NotImplementedException();
+            //logic here
+
+            _databaseContext.Add(reservation);
+            _databaseContext.SaveChanges();
+            return true;
         }
         public ICollection<Reservation> GetAll()
         {
@@ -35,6 +39,17 @@ namespace FitnessReservationSystem.Repositories
         public void Update(Reservation reservation)
         {
             throw new NotImplementedException();
+        }
+
+        public bool CheckIfExists(int LectureId, string mail)
+        {
+            Reservation reservation = _databaseContext.Reservations.Where(e => e.Lecture.Id == LectureId)           //List of reservations from exact lecture
+                                                                   .Where(c => c.Mail == mail).FirstOrDefault();    //mail reservation combo
+            if (reservation == null)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

@@ -16,7 +16,7 @@ namespace FitnessReservationSystem.Controllers
         private readonly IReservationRepository _reservationRepository;
         private readonly IMapper _mapper;
 
-        public ReservationController(IReservationRepository reservationRepository,IMapper mapper)
+        public ReservationController(IReservationRepository reservationRepository, IMapper mapper)
         {
             _reservationRepository = reservationRepository;
             _mapper = mapper;
@@ -73,10 +73,36 @@ namespace FitnessReservationSystem.Controllers
             return Ok(reservation);
         }
 
-        // POST api/<ReservationController>
+
         [HttpPost]
-        public void Post([FromBody] string value)
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult CreateReservation([FromQuery] int lectureId,[FromBody] ReservationDTO reservationDto)
         {
+            if(reservationDto == null)
+            {
+                return BadRequest();
+            }
+            if(_reservationRepository.CheckIfExists(lectureId, reservationDto.Mail))
+            {
+                ModelState.AddModelError("", "reservation with this mail to this lecture already exists");
+                return StatusCode(422, ModelState);
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            if (!_reservationRepository.Add(lectureId, _mapper.Map<Reservation>(reservationDto)))
+            {
+                ModelState.AddModelError("", "Something went wrong");
+                return StatusCode(500, ModelState);
+            }
+            return NoContent();
+
+            //var reservations = _reservationRepository.GetAll().Where(e => e.Mail.Trim().ToUpper() == reservationDto.Mail.TrimEnd().ToUpper());
+
+            // check if registration exist by checking if existing combination of mail and lectureid
+            //_lectureRepository.GetAll().Where(e => e.Name.Trim().ToUpper() == lecturedto.Name.TrimEnd().ToUpper()).FirstOrDefault();
         }
 
         // PUT api/<ReservationController>/5
