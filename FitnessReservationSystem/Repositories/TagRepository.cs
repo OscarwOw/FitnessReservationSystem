@@ -33,9 +33,11 @@ namespace FitnessReservationSystem.Repositories
         {
             throw new NotImplementedException();
         }
-        public void Update(Tag tag)
+        public bool Update(Tag tag)
         {
-            throw new NotImplementedException();
+            _databaseContext.Update(tag);
+            _databaseContext.SaveChanges();
+            return true;
         }
     }
 }

@@ -106,10 +106,31 @@ namespace FitnessReservationSystem.Controllers
             return NoContent();
         }
 
-        // PUT api/<TagController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateTag([FromBody] TagDTO tagdto)
         {
+            if (tagdto == null)
+            {
+                return BadRequest(ModelState);
+            }
+            if (_tagRepository.GetById(tagdto.Id) == null)
+            {
+                return NotFound();
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var tagMap = _mapper.Map<Tag>(tagdto);
+            if (!_tagRepository.Update(tagMap))
+            {
+                ModelState.AddModelError("", "Something went wrong");
+                return StatusCode(500, ModelState);
+            }
+            return NoContent();
         }
 
         // DELETE api/<TagController>/5

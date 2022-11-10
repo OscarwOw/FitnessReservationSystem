@@ -8,7 +8,7 @@ namespace FitnessReservationSystem.Interfaces
         public Tag GetTag(int id);
         public ICollection<Tag> GetAll();
         public ICollection<Course> GetTagsCourses(int id);
-        public void Update(Tag tag);
+        public bool Update(Tag tag);
         public void Delete(int id);
     }
 }
