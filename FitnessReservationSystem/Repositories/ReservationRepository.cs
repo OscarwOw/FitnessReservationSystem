@@ -14,11 +14,16 @@ namespace FitnessReservationSystem.Repositories
 
         public bool Add(int lectureId,Reservation reservation)
         {
-            //logic here
-
+            var lecture = _databaseContext.Lectures.Where(c => c.Id == lectureId).FirstOrDefault();
+            if (lecture == null)
+            {
+                return false;
+            }
+            reservation.Lecture = lecture;
             _databaseContext.Add(reservation);
             _databaseContext.SaveChanges();
             return true;
+        
         }
         public ICollection<Reservation> GetAll()
         {

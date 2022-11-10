@@ -92,7 +92,8 @@ namespace FitnessReservationSystem.Controllers
             {
                 return BadRequest();
             }
-            if (!_reservationRepository.Add(lectureId, _mapper.Map<Reservation>(reservationDto)))
+            var reservation = _mapper.Map<Reservation>(reservationDto);
+            if (!_reservationRepository.Add(lectureId, reservation))
             {
                 ModelState.AddModelError("", "Something went wrong");
                 return StatusCode(500, ModelState);
@@ -138,7 +139,7 @@ namespace FitnessReservationSystem.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public IActionResult DeleteReservation([FromQuery]int id)
+        public IActionResult DeleteReservation(int id)
         {
             var reservationToDelete = _reservationRepository.GetReservation(id);
             if (reservationToDelete == null)

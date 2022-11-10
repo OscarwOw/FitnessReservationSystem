@@ -137,7 +137,7 @@ namespace FitnessReservationSystem.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public IActionResult DeleteTag([FromQuery]int id)
+        public IActionResult DeleteTag(int id)
         {
             var tagToDelete = _tagRepository.GetTag(id);
             if (tagToDelete == null)

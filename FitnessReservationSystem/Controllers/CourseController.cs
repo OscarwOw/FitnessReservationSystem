@@ -158,7 +158,7 @@ namespace FitnessReservationSystem.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public IActionResult DeleteCourse([FromQuery]int id)
+        public IActionResult DeleteCourse(int id)
         {
             var itemToDelete = _courseRepository.GetCourse(id);
             if (itemToDelete == null)
