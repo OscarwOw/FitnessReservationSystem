@@ -36,9 +36,11 @@ namespace FitnessReservationSystem.Repositories
         {
             throw new NotImplementedException();
         }
-        public void Update(Reservation reservation)
+        public bool Update(Reservation reservation)
         {
-            throw new NotImplementedException();
+            _databaseContext.Update(reservation);
+            _databaseContext.SaveChanges();
+            return true;
         }
 
         public bool CheckIfExists(int LectureId, string mail)

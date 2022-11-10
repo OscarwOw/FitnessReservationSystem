@@ -105,10 +105,32 @@ namespace FitnessReservationSystem.Controllers
             //_lectureRepository.GetAll().Where(e => e.Name.Trim().ToUpper() == lecturedto.Name.TrimEnd().ToUpper()).FirstOrDefault();
         }
 
-        // PUT api/<ReservationController>/5
+        
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(204)]
+        public IActionResult UpdateReservation([FromBody] ReservationDTO reservationdto)
         {
+            if (reservationdto == null)
+            {
+                return BadRequest(ModelState);
+            }
+            if (_reservationRepository.GetReservation(reservationdto.Id) == null)
+            {
+                return NotFound();
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var reservationMap = _mapper.Map<Reservation>(reservationdto);
+            if (!_reservationRepository.Update(reservationMap))
+            {
+                ModelState.AddModelError("", "Something went wrong");
+                return StatusCode(500, ModelState);
+            }
+            return NoContent();
         }
 
         // DELETE api/<ReservationController>/5
