@@ -29,9 +29,11 @@ namespace FitnessReservationSystem.Repositories
         {
             return _databaseContext.Tags.Where(e => e.Id == id).SelectMany(e => e.Courses).ToList();
         }
-        public void Delete(int id)
+        public bool Delete(Tag tag)
         {
-            throw new NotImplementedException();
+            _databaseContext.Remove(tag);
+            _databaseContext.SaveChanges();
+            return true;
         }
         public bool Update(Tag tag)
         {

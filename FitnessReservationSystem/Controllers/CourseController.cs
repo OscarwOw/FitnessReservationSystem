@@ -2,6 +2,7 @@
 using FitnessReservationSystem.Dto;
 using FitnessReservationSystem.Interfaces;
 using FitnessReservationSystem.Models;
+using FitnessReservationSystem.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -153,11 +154,27 @@ namespace FitnessReservationSystem.Controllers
             }
             return NoContent();
         }
-
-        // DELETE api/<CourseController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult DeleteCourse([FromQuery]int id)
         {
+            var itemToDelete = _courseRepository.GetCourse(id);
+            if (itemToDelete == null)
+            {
+                return NotFound();
+            }
+            ;
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (!_courseRepository.Delete(itemToDelete))
+            {
+                ModelState.AddModelError("", "something went wrong");
+            }
+            return NoContent();
         }
     }
 }

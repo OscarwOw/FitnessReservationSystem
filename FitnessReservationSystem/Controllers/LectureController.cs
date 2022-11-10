@@ -139,7 +139,7 @@ namespace FitnessReservationSystem.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public IActionResult DeleteLecture(int id)
+        public IActionResult DeleteLecture([FromQuery] int id)
         {
             var lectureToDelete = _lectureRepository.GetLecture(id);
             if (lectureToDelete == null)
