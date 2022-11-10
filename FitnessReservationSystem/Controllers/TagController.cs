@@ -116,7 +116,7 @@ namespace FitnessReservationSystem.Controllers
             {
                 return BadRequest(ModelState);
             }
-            if (_tagRepository.GetById(tagdto.Id) == null)
+            if (_tagRepository.GetTag(tagdto.Id) == null)
             {
                 return NotFound();
             }
