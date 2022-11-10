@@ -133,10 +133,27 @@ namespace FitnessReservationSystem.Controllers
             return NoContent();
         }
 
-        // DELETE api/<ReservationController>/5
+        
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult DeleteReservation(int id)
         {
+            if (_reservationRepository.GetReservation == null)
+            {
+                return NotFound();
+            }
+            var reservationToDelete = _reservationRepository.GetReservation(id);
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (!_reservationRepository.Delete(reservationToDelete))
+            {
+                ModelState.AddModelError("", "something went wrong");
+            }
+            return NoContent();
         }
     }
 }

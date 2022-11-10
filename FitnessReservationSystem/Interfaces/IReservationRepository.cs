@@ -9,7 +9,7 @@ namespace FitnessReservationSystem.Interfaces
         public Reservation GetReservationByName(string name);
         public ICollection<Reservation> GetAll();
         public bool Update(Reservation reservation);
-        public void Delete(int id);
+        public bool Delete(Reservation reservation);
         public bool CheckIfExists(int LectureId, string mail);
 
     }

@@ -32,10 +32,7 @@ namespace FitnessReservationSystem.Repositories
         {
             return _databaseContext.Reservations.Where(e => e.Name == name).FirstOrDefault();
         }
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
+       
         public bool Update(Reservation reservation)
         {
             _databaseContext.Update(reservation);
@@ -51,6 +48,12 @@ namespace FitnessReservationSystem.Repositories
             {
                 return false;
             }
+            return true;
+        }
+        public bool Delete(Reservation reservation)
+        {
+            _databaseContext.Remove(reservation);
+            _databaseContext.SaveChanges();
             return true;
         }
     }
