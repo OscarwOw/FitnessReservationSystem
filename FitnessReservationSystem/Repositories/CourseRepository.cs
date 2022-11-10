@@ -20,7 +20,7 @@ namespace FitnessReservationSystem.Repositories
             _databaseContext.SaveChanges();
             return true;
         }
-        public Course GetById(int id)
+        public Course GetCourse(int id)
         {
             return _databaseContext.Courses.Where(e => e.Id == id).FirstOrDefault();
         }

@@ -43,7 +43,7 @@ namespace FitnessReservationSystem.Controllers
         [ProducesResponseType(400)]
         public IActionResult Get(int id)
         {
-            var course = _mapper.Map<CourseDTO>(_courseRepository.GetById(id));
+            var course = _mapper.Map<CourseDTO>(_courseRepository.GetCourse(id));
             if (course == null)
             {
                 return NotFound();
@@ -137,7 +137,7 @@ namespace FitnessReservationSystem.Controllers
             {
                 return BadRequest(ModelState);
             }
-            if (_courseRepository.GetById(coursedto.Id)==null)
+            if (_courseRepository.GetCourse(coursedto.Id)==null)
             {
                 return NotFound();
             }
