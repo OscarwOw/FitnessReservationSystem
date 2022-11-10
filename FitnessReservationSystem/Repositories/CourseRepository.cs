@@ -42,9 +42,11 @@ namespace FitnessReservationSystem.Repositories
             return _databaseContext.Lectures.Where(e => e.Course.Id == id).ToList(); //1:m relationship
         }
 
-        public void Update(Course course)
+        public bool Update(Course course)
         {
-            throw new NotImplementedException();
+            _databaseContext.Update(course);
+            _databaseContext.SaveChanges();
+            return true;
         }
         public void Delete(int id)
         {

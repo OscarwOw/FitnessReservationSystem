@@ -127,10 +127,31 @@ namespace FitnessReservationSystem.Controllers
 
         }
 
-        // PUT api/<CourseController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateCourse([FromBody] CourseDTO coursedto)
         {
+            if(UpdateCourse == null)
+            {
+                return BadRequest(ModelState);
+            }
+            if (_courseRepository.GetById(coursedto.Id)==null)
+            {
+                return NotFound();
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var courseMap = _mapper.Map<Course>(coursedto);
+            if (!_courseRepository.Update(courseMap))
+            {
+                ModelState.AddModelError("", "Something went wrong");
+                return StatusCode(500, ModelState); 
+            }
+            return NoContent();
         }
 
         // DELETE api/<CourseController>/5
