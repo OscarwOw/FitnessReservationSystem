@@ -49,9 +49,11 @@ namespace FitnessReservationSystem.Repositories
             _databaseContext.SaveChanges();
             return true;
         }
-        public void Delete(int id)
+        public bool Delete(Lecture lecture)
         {
-            throw new NotImplementedException();
+            _databaseContext.Remove(lecture);
+            _databaseContext.SaveChanges();
+            return true;
         }
         
     }

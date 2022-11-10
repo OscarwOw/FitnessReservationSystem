@@ -134,10 +134,28 @@ namespace FitnessReservationSystem.Controllers
             return NoContent();
         }
 
-        // DELETE api/<LectureController>/5
+
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult DeleteLecture(int id)
         {
+            var lectureToDelete = _lectureRepository.GetLecture(id);
+            if (lectureToDelete == null)
+            {
+                return NotFound();
+            }
+            
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (!_lectureRepository.Delete(lectureToDelete))
+            {
+                ModelState.AddModelError("", "something went wrong");
+            }
+            return NoContent();
         }
     }
 }

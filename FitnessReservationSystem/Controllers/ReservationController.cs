@@ -140,11 +140,11 @@ namespace FitnessReservationSystem.Controllers
         [ProducesResponseType(404)]
         public IActionResult DeleteReservation(int id)
         {
-            if (_reservationRepository.GetReservation == null)
+            var reservationToDelete = _reservationRepository.GetReservation(id);
+            if (reservationToDelete == null)
             {
                 return NotFound();
-            }
-            var reservationToDelete = _reservationRepository.GetReservation(id);
+            }         
             if(!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
