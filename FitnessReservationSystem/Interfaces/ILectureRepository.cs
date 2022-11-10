@@ -8,7 +8,7 @@ namespace FitnessReservationSystem.Interfaces
         public Lecture GetLecture(int id);
         public IEnumerable<Lecture> GetAll();
         public int GetRegistrationCount(int id);
-        public void Update(Lecture lecture);
+        public bool Update(Lecture lecture);
         public void Delete(int id);
     }
 }

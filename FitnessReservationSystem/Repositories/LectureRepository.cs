@@ -43,13 +43,16 @@ namespace FitnessReservationSystem.Repositories
             }
             return count;
         }
+        public bool Update(Lecture lecture)
+        {
+            _databaseContext.Update(lecture);
+            _databaseContext.SaveChanges();
+            return true;
+        }
         public void Delete(int id)
         {
             throw new NotImplementedException();
         }
-        public void Update(Lecture lecture)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

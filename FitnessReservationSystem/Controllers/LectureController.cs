@@ -2,6 +2,7 @@
 using FitnessReservationSystem.Dto;
 using FitnessReservationSystem.Interfaces;
 using FitnessReservationSystem.Models;
+using FitnessReservationSystem.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -105,10 +106,32 @@ namespace FitnessReservationSystem.Controllers
             return Ok("Success");
         }
 
-        // PUT api/<LectureController>/5
+        
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(204)]
+        public IActionResult UpdateLecture([FromBody] LectureDTO lecturedto)
         {
+            if (lecturedto == null)
+            {
+                return BadRequest(ModelState);
+            }
+            if (_lectureRepository.GetLecture(lecturedto.Id) == null)
+            {
+                return NotFound();
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var lectureMap = _mapper.Map<Lecture>(lecturedto);
+            if (!_lectureRepository.Update(lectureMap))
+            {
+                ModelState.AddModelError("", "Something went wrong");
+                return StatusCode(500, ModelState);
+            }
+            return NoContent();
         }
 
         // DELETE api/<LectureController>/5

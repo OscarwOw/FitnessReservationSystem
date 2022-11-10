@@ -133,7 +133,7 @@ namespace FitnessReservationSystem.Controllers
         [ProducesResponseType(404)]
         public IActionResult UpdateCourse([FromBody] CourseDTO coursedto)
         {
-            if(UpdateCourse == null)
+            if(coursedto == null)
             {
                 return BadRequest(ModelState);
             }
