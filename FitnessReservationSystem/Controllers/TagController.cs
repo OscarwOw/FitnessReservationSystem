@@ -110,7 +110,7 @@ namespace FitnessReservationSystem.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public IActionResult UpdateTag([FromBody] TagDTO tagdto)
+        public IActionResult UpdateTag(int id,[FromBody] TagDTO tagdto)
         {
             if (tagdto == null)
             {

@@ -102,7 +102,7 @@ namespace FitnessReservationSystem.Controllers
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public IActionResult CreateCategory([FromBody] CourseDTO courseDTO)
+        public IActionResult CreateCourse([FromBody] CourseDTO courseDTO)
         {
             if (courseDTO == null)
             {
@@ -132,7 +132,7 @@ namespace FitnessReservationSystem.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public IActionResult UpdateCourse([FromBody] CourseDTO coursedto)
+        public IActionResult UpdateCourse(int id,[FromBody] CourseDTO coursedto)
         {
             if(coursedto == null)
             {

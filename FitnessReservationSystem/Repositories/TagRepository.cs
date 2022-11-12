@@ -1,6 +1,7 @@
 ﻿using FitnessReservationSystem.Data;
 using FitnessReservationSystem.Interfaces;
 using FitnessReservationSystem.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FitnessReservationSystem.Repositories
 {
@@ -23,7 +24,7 @@ namespace FitnessReservationSystem.Repositories
         }
         public Tag GetTag(int id)
         {
-            return _databaseContext.Tags.Where(e => e.Id == id).FirstOrDefault();
+            return _databaseContext.Tags.AsNoTracking().Where(e => e.Id == id).FirstOrDefault();
         }
         public ICollection<Course> GetTagsCourses(int id)
         {

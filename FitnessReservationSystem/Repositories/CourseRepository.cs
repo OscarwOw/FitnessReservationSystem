@@ -22,12 +22,12 @@ namespace FitnessReservationSystem.Repositories
         }
         public Course GetCourse(int id)
         {
-            return _databaseContext.Courses.Where(e => e.Id == id).FirstOrDefault();
+            return _databaseContext.Courses.AsNoTracking().Where(e => e.Id == id).FirstOrDefault();
         }
 
         public Course GetByName(string name)
         {
-            return _databaseContext.Courses.Where(e => e.Name == name).FirstOrDefault();
+            return _databaseContext.Courses.AsNoTracking().Where(e => e.Name == name).FirstOrDefault();
         }
         public ICollection<Course> GetAll()
         {

@@ -111,7 +111,7 @@ namespace FitnessReservationSystem.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(204)]
-        public IActionResult UpdateLecture([FromBody] LectureDTO lecturedto)
+        public IActionResult UpdateLecture(int id,[FromBody] LectureDTO lecturedto)
         {
             if (lecturedto == null)
             {

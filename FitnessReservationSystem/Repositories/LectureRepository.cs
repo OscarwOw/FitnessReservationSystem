@@ -1,6 +1,7 @@
 ﻿using FitnessReservationSystem.Data;
 using FitnessReservationSystem.Interfaces;
 using FitnessReservationSystem.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FitnessReservationSystem.Repositories
 {
@@ -31,7 +32,7 @@ namespace FitnessReservationSystem.Repositories
 
         public Lecture GetLecture(int id)
         {
-            return _databaseContext.Lectures.Where(e => e.Id == id).FirstOrDefault();
+            return _databaseContext.Lectures.AsNoTracking().Where(e => e.Id == id).FirstOrDefault();
         }
         public int GetRegistrationCount(int id)
         {
