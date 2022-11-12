@@ -1,6 +1,7 @@
 ﻿using FitnessReservationSystem.Data;
 using FitnessReservationSystem.Interfaces;
 using FitnessReservationSystem.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FitnessReservationSystem.Repositories
 {
@@ -31,7 +32,7 @@ namespace FitnessReservationSystem.Repositories
         }
         public Reservation GetReservation(int id)
         {
-            return _databaseContext.Reservations.Where(e => e.Id == id).FirstOrDefault();
+            return _databaseContext.Reservations.AsNoTracking().Where(e => e.Id == id).FirstOrDefault();
         }
         public Reservation GetReservationByName(string name)
         {
@@ -40,6 +41,7 @@ namespace FitnessReservationSystem.Repositories
        
         public bool Update(Reservation reservation)
         {
+            
             _databaseContext.Update(reservation);
             _databaseContext.SaveChanges();
             return true;
@@ -57,6 +59,7 @@ namespace FitnessReservationSystem.Repositories
         }
         public bool Delete(Reservation reservation)
         {
+            
             _databaseContext.Remove(reservation);
             _databaseContext.SaveChanges();
             return true;

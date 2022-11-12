@@ -37,7 +37,6 @@ namespace FitnessReservationSystem.Controllers
             }
             return Ok(reservationdtos);
         }
-
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(Reservation))]
         [ProducesResponseType(400)]
@@ -72,8 +71,6 @@ namespace FitnessReservationSystem.Controllers
             }
             return Ok(reservation);
         }
-
-
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
@@ -99,19 +96,12 @@ namespace FitnessReservationSystem.Controllers
                 return StatusCode(500, ModelState);
             }
             return NoContent();
-
-            //var reservations = _reservationRepository.GetAll().Where(e => e.Mail.Trim().ToUpper() == reservationDto.Mail.TrimEnd().ToUpper());
-
-            // check if registration exist by checking if existing combination of mail and lectureid
-            //_lectureRepository.GetAll().Where(e => e.Name.Trim().ToUpper() == lecturedto.Name.TrimEnd().ToUpper()).FirstOrDefault();
-        }
-
-        
+        }     
         [HttpPut("{id}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(204)]
-        public IActionResult UpdateReservation([FromBody] ReservationDTO reservationdto)
+        public IActionResult UpdateReservation(int id,[FromBody] ReservationDTO reservationdto)
         {
             if (reservationdto == null)
             {
@@ -132,9 +122,7 @@ namespace FitnessReservationSystem.Controllers
                 return StatusCode(500, ModelState);
             }
             return NoContent();
-        }
-
-        
+        }     
         [HttpDelete("{id}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
