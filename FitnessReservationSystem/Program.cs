@@ -2,6 +2,7 @@ using FitnessReservationSystem.Data;
 using FitnessReservationSystem.Interfaces;
 using FitnessReservationSystem.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,18 @@ builder.Services.AddScoped<ILectureRepository, LectureRepository>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+var provider = builder.Services.BuildServiceProvider();
+var configuration = provider.GetService<IConfiguration>();
+
+builder.Services.AddCors(Options =>
+{
+    var frontendURL = configuration.GetValue<string>("FrontendUrl");
+    Options.AddDefaultPolicy(builder => 
+    { 
+        builder.WithOrigins(frontendURL).AllowAnyMethod().AllowAnyHeader();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -28,6 +41,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthorization();
 

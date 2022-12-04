@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FitnessReservationSystem.Models
 {
-    public class Reservation
+    public class Reservation 
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
