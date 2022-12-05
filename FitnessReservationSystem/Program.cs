@@ -3,6 +3,7 @@ using FitnessReservationSystem.Interfaces;
 using FitnessReservationSystem.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 

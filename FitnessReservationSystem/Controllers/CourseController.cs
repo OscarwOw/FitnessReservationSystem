@@ -15,10 +15,12 @@ namespace FitnessReservationSystem.Controllers
     {
         private readonly ICourseRepository _courseRepository;
         private readonly IMapper _mapper;
-        public CourseController(ICourseRepository courseRepository, IMapper mapper)
+        private readonly ILogger<CourseController> _logger;
+        public CourseController(ILogger<CourseController> logger, ICourseRepository courseRepository, IMapper mapper)
         {
             _courseRepository = courseRepository;
             _mapper = mapper;
+            _logger = logger;
         }
 
 
@@ -36,6 +38,7 @@ namespace FitnessReservationSystem.Controllers
             {
                 return BadRequest();
             }
+            _logger.LogInformation("["+DateTime.Now.ToString()+"] GetCourses Returned: 200 Ok");
             return Ok(coursesdtos);
         }
 
