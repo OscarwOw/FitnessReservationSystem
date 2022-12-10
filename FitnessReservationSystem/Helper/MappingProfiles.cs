@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
-using FitnessReservationSystem.Dto;
+using FitnessReservationSystem.Dto.CourseDtos;
+using FitnessReservationSystem.Dto.LectureDtos;
+using FitnessReservationSystem.Dto.ReservationDtos;
+using FitnessReservationSystem.Dto.TagDtos;
 using FitnessReservationSystem.Models;
 
 namespace FitnessReservationSystem.Helper

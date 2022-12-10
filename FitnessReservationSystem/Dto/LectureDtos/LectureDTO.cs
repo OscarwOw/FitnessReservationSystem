@@ -1,6 +1,6 @@
 ﻿using FitnessReservationSystem.Models;
 
-namespace FitnessReservationSystem.Dto
+namespace FitnessReservationSystem.Dto.LectureDtos
 {
     public class LectureDTO
     {

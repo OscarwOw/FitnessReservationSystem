@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using FitnessReservationSystem.Dto;
+using FitnessReservationSystem.Dto.LectureDtos;
 using FitnessReservationSystem.Interfaces;
 using FitnessReservationSystem.Models;
 using FitnessReservationSystem.Repositories;

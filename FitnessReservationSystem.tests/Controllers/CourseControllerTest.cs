@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using FakeItEasy;
 using FitnessReservationSystem.Controllers;
-using FitnessReservationSystem.Dto;
+using FitnessReservationSystem.Dto.CourseDtos;
 using FitnessReservationSystem.Interfaces;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;

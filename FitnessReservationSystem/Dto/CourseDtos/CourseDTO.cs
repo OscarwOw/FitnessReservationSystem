@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FitnessReservationSystem.Dto
+namespace FitnessReservationSystem.Dto.CourseDtos
 {
     public class CourseDTO
     {

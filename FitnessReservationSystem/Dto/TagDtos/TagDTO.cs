@@ -1,4 +1,4 @@
-﻿namespace FitnessReservationSystem.Dto
+﻿namespace FitnessReservationSystem.Dto.TagDtos
 {
     public class TagDTO
     {

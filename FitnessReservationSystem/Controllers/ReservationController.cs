@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.Features;
-using FitnessReservationSystem.Dto;
+using FitnessReservationSystem.Dto.ReservationDtos;
 using FitnessReservationSystem.Interfaces;
 using FitnessReservationSystem.Models;
 using FitnessReservationSystem.Repositories;
