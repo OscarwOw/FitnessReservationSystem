@@ -15,10 +15,12 @@ namespace FitnessReservationSystem.Controllers
     {
         private readonly ILectureRepository _lectureRepository;
         private readonly IMapper _mapper;
-        public LectureController(ILectureRepository lectureRepository, IMapper mapper)
+        private readonly ILogger<LectureController> _logger;
+        public LectureController(ILogger<LectureController> logger,ILectureRepository lectureRepository, IMapper mapper)
         {
             _lectureRepository = lectureRepository;
             _mapper = mapper;
+            _logger = logger;
         }
 
         
@@ -42,6 +44,7 @@ namespace FitnessReservationSystem.Controllers
             {
                 return NotFound();
             }
+            _logger.LogInformation("[" + DateTime.Now.ToString() + "] GetLectures Returned: 200 Ok");
             return Ok(lecturesdtos);
         }
 
@@ -52,10 +55,10 @@ namespace FitnessReservationSystem.Controllers
         public IActionResult GetNextWeekLectures()
         {
             var lectures = _lectureRepository.GetNextWeekLectures();
-            List<LectureDTO> lecturesdtos = new List<LectureDTO>();
+            List<LectureDTOWithCapacity> lecturesdtos = new List<LectureDTOWithCapacity>();
             foreach (var lecture in lectures)
             {
-                lecturesdtos.Add(_mapper.Map<LectureDTO>(lecture));
+                lecturesdtos.Add(_mapper.Map<LectureDTOWithCapacity>(lecture));
             }
             if (!ModelState.IsValid)
             {
@@ -63,8 +66,10 @@ namespace FitnessReservationSystem.Controllers
             }
             if (lectures == null)
             {
+                _logger.LogError("[" + DateTime.Now.ToString() + "] GetLecturesForNextWeek Returned: 404 NotFound");
                 return NotFound();
             }
+            _logger.LogInformation("[" + DateTime.Now.ToString() + "] GetLecturesForNextWeek Returned: 200 Ok");
             return Ok(lecturesdtos);
         }
 
@@ -84,6 +89,7 @@ namespace FitnessReservationSystem.Controllers
             {
                 return BadRequest();    
             }
+            _logger.LogInformation("[" + DateTime.Now.ToString() + "] GetLecture Returned: 200 Ok");
             return Ok(lecture);
         }
         [HttpGet("{id}/ReservationCount")]
@@ -126,6 +132,7 @@ namespace FitnessReservationSystem.Controllers
                 ModelState.AddModelError("", "Something went wrong");
                 return StatusCode(500, ModelState);
             }
+            _logger.LogInformation("[" + DateTime.Now.ToString() + "] CreateLecture Returned: 200 Ok");
             return Ok("Success");
         }
 

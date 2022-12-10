@@ -15,11 +15,13 @@ namespace FitnessReservationSystem.Controllers
     {
         private readonly IReservationRepository _reservationRepository;
         private readonly IMapper _mapper;
+        private readonly ILogger<ReservationController> _logger;
 
-        public ReservationController(IReservationRepository reservationRepository, IMapper mapper)
+        public ReservationController(ILogger<ReservationController> logger, IReservationRepository reservationRepository, IMapper mapper)
         {
             _reservationRepository = reservationRepository;
             _mapper = mapper;
+            _logger = logger;
         }
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Reservation>))]
@@ -35,6 +37,7 @@ namespace FitnessReservationSystem.Controllers
             {
                 return BadRequest();
             }
+            _logger.LogInformation("[" + DateTime.Now.ToString() + "] GetReservations Returned: 200 Ok");
             return Ok(reservationdtos);
         }
         [HttpGet("{id}")]
@@ -95,6 +98,7 @@ namespace FitnessReservationSystem.Controllers
                 ModelState.AddModelError("", "Something went wrong");
                 return StatusCode(500, ModelState);
             }
+            _logger.LogInformation("[" + DateTime.Now.ToString() + "] CreateReservation Returned: NoContent Created");
             return NoContent();
         }     
         [HttpPut("{id}")]

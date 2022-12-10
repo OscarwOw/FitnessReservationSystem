@@ -52,12 +52,14 @@ namespace FitnessReservationSystem.Controllers
             var course = _mapper.Map<CourseDTO>(_courseRepository.GetCourse(id));
             if (course == null)
             {
+                _logger.LogError("[" + DateTime.Now.ToString() + "] GetCourse Returned: 404 NotFound");
                 return NotFound();
             }
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
+            _logger.LogInformation("[" + DateTime.Now.ToString() + "] GetCourse Returned: 200 Ok");
             return Ok(course);
         }
         [HttpGet("{id}/tags")]
@@ -79,18 +81,20 @@ namespace FitnessReservationSystem.Controllers
             {
                 return BadRequest();
             }
+            _logger.LogInformation("[" + DateTime.Now.ToString() + "] GetCourseTags Returned: 200 Ok");
             return Ok(tagsdtos);
         }
+        
         [HttpGet("{id}/Lectures")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Lecture>))]
         [ProducesResponseType(400)]
         public IActionResult GetLectures(int id)
         {
             var lectures = _courseRepository.GetLectures(id);
-            List<LectureDTO> lecturesdtos = new List<LectureDTO>();
+            List<LectureDTOWithCapacity> lecturesdtos = new List<LectureDTOWithCapacity>();
             foreach(var lecture in lectures)
             {
-                lecturesdtos.Add(_mapper.Map<LectureDTO>(lecture));
+                lecturesdtos.Add(_mapper.Map<LectureDTOWithCapacity>(lecture));
             }
             if (lectures == null)
             {
@@ -100,7 +104,8 @@ namespace FitnessReservationSystem.Controllers
             {
                 return BadRequest();
             }
-            return Ok(lecturesdtos);
+            _logger.LogInformation("[" + DateTime.Now.ToString() + "] GetLecturesofCourse Returned: 200 Ok");
+            return Ok(lecturesdtos);           
         }
 
         
@@ -129,6 +134,7 @@ namespace FitnessReservationSystem.Controllers
                 ModelState.AddModelError("", "something went wrong");
                 return StatusCode(500, ModelState);
             }
+            _logger.LogInformation("[" + DateTime.Now.ToString() + "] CreateLecture Returned: 200 Ok");
             return Ok("success");
 
         }
