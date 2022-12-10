@@ -30,6 +30,12 @@ namespace FitnessReservationSystem.Repositories
             return _databaseContext.Lectures.ToList();
         }
 
+        public IEnumerable<Lecture> GetNextWeekLectures()
+        {
+            IEnumerable<Lecture> lectures =  _databaseContext.Lectures.Where(lecture => DateTime.Compare(lecture.Date, DateTime.Today) >= 0 ? true : false);
+            return lectures.Where(item => DateTime.Compare(item.Date, DateTime.Today.AddDays(7)) < 0 ? true : false);
+        }
+
         public Lecture GetLecture(int id)
         {
             return _databaseContext.Lectures.AsNoTracking().Where(e => e.Id == id).FirstOrDefault();
