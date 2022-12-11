@@ -108,7 +108,30 @@ namespace FitnessReservationSystem.Controllers
             return Ok(lecturesdtos);           
         }
 
-        
+        [HttpGet("{id}/Lectures/NextWeek")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Lecture>))]
+        [ProducesResponseType(400)]
+        public IActionResult GetLecturesNextWeek(int id)
+        {
+            var lectures = _courseRepository.GetLecturesNextWeek(id);
+            List<LectureDTOWithCapacity> lecturesdtos = new List<LectureDTOWithCapacity>();
+            foreach (var lecture in lectures)
+            {
+                lecturesdtos.Add(_mapper.Map<LectureDTOWithCapacity>(lecture));
+            }
+            if (lectures == null)
+            {
+                return NotFound();
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            _logger.LogInformation("[" + DateTime.Now.ToString() + "] Get Lectures of course for next week returned: 200 Ok");
+            return Ok(lecturesdtos);
+        }
+
+
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]

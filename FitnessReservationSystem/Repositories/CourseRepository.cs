@@ -54,15 +54,12 @@ namespace FitnessReservationSystem.Repositories
             _databaseContext.SaveChanges();
             return true;
         }
+        public IEnumerable<Lecture> GetLecturesNextWeek(int id)
+        {
+            IEnumerable<Lecture> lectures = _databaseContext.Lectures.Where(e => e.Course.Id == id).ToList();
+            lectures = lectures.Where(lecture => DateTime.Compare(lecture.Date, DateTime.Today) >= 0 ? true : false);
+            return lectures.Where(item => DateTime.Compare(item.Date, DateTime.Today.AddDays(7)) < 0 ? true : false);
 
-
-
-        
-
-        
-
-        
-
-        
+        }
     }
 }
