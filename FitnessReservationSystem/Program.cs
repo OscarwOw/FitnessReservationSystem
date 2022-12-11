@@ -26,9 +26,11 @@ var configuration = provider.GetService<IConfiguration>();
 builder.Services.AddCors(Options =>
 {
     var frontendURL = configuration.GetValue<string>("FrontendUrl");
+    var frontendLocalHost = configuration.GetValue<string>("frontendLocalHost");
     Options.AddDefaultPolicy(builder => 
     { 
         builder.WithOrigins(frontendURL).AllowAnyMethod().AllowAnyHeader();
+        builder.WithOrigins(frontendLocalHost).AllowAnyMethod().AllowAnyHeader();
     });
 });
 
