@@ -1,3 +1,3 @@
 # FitnessReservationSystem
 My full stack project
-In progress.. creating front end in ReactJs
+first phaze finished. creating some basic endpoints with some basic frontend next phaze is implementing login. 
