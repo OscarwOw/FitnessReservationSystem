@@ -12,5 +12,6 @@ namespace FitnessReservationSystem.Models
         public string Mail { get; set; }
         public DateTime CreatedDate { get; set; }
         public Lecture Lecture { get; set; }
+        public ApplicationUser User { get; set; }
     }
 }
