@@ -15,9 +15,7 @@ namespace FitnessReservationSystem.Helper
             CreateMap<Lecture, LectureDTO>().ReverseMap();
             CreateMap<Reservation, ReservationDTO>().ReverseMap();
             CreateMap<Tag, TagDTO>().ReverseMap();
-            CreateMap<Lecture, LectureDTOWithCapacity>().ForMember(
-                dst => dst.RegistredCount,
-                src => src.MapFrom(src => src.Reservations.Count));
+            CreateMap<Lecture, LectureDTOWithCapacity>();
         }
     }
 }

@@ -16,13 +16,15 @@ namespace FitnessReservationSystem.Controllers
     public class CourseController : ControllerBase
     {
         private readonly ICourseRepository _courseRepository;
+        private readonly ILectureRepository _lectureRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<CourseController> _logger;
-        public CourseController(ILogger<CourseController> logger, ICourseRepository courseRepository, IMapper mapper)
+        public CourseController(ILogger<CourseController> logger, ICourseRepository courseRepository, IMapper mapper, ILectureRepository lectureRepository)
         {
             _courseRepository = courseRepository;
             _mapper = mapper;
             _logger = logger;
+            _lectureRepository = lectureRepository;
         }
 
 
@@ -117,7 +119,9 @@ namespace FitnessReservationSystem.Controllers
             List<LectureDTOWithCapacity> lecturesdtos = new List<LectureDTOWithCapacity>();
             foreach (var lecture in lectures)
             {
-                lecturesdtos.Add(_mapper.Map<LectureDTOWithCapacity>(lecture));
+                LectureDTOWithCapacity lecturedto = _mapper.Map<LectureDTOWithCapacity>(lecture);
+                lecturedto.RegistredCount = _lectureRepository.GetRegistrationCount(lecturedto.Id);
+                lecturesdtos.Add(lecturedto);
             }
             if (lectures == null)
             {

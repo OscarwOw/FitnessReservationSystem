@@ -21,6 +21,7 @@ namespace FitnessReservationSystem.Repositories
                 return false;
             }
             reservation.Lecture = lecture;
+            reservation.User = _databaseContext.ApplicationUsers.Where(c => c.Email == "user@example.com").FirstOrDefault();
             _databaseContext.Add(reservation);
             _databaseContext.SaveChanges();
             return true;

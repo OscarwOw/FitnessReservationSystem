@@ -112,6 +112,10 @@ namespace FitnessReservationSystem.Controllers
                     Result = false
                 });
             }
+            if(result.Token == null)
+            {
+                return BadRequest(result.Errors);
+            }
             return Ok(result);
         }
 
