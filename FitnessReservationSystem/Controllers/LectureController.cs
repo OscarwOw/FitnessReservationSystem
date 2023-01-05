@@ -58,7 +58,11 @@ namespace FitnessReservationSystem.Controllers
             List<LectureDTOWithCapacity> lecturesdtos = new List<LectureDTOWithCapacity>();
             foreach (var lecture in lectures)
             {
-                lecturesdtos.Add(_mapper.Map<LectureDTOWithCapacity>(lecture));
+                //lecturesdtos.Add(_mapper.Map<LectureDTOWithCapacity>(lecture));
+
+                LectureDTOWithCapacity lecturedto = _mapper.Map<LectureDTOWithCapacity>(lecture);
+                lecturedto.RegistredCount = _lectureRepository.GetRegistrationCount(lecturedto.Id);
+                lecturesdtos.Add(lecturedto);
             }
             if (!ModelState.IsValid)
             {
